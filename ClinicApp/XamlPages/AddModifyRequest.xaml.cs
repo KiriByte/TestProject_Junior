@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlTypes;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -64,6 +65,16 @@ namespace ClinicApp.XamlPages
                 {
                     status = false;
                     messageBuilder.Append("Дата обращения - обязательное поле для ввода.\n");
+                }
+                if (dateOfRequest > DateTime.Now)
+                {
+                    status = false;
+                    messageBuilder.Append("Дата обращения не может быть в будущем.\n");
+                }
+                if (dateOfRequest < SqlDateTime.MinValue.Value)
+                {
+                    status = false;
+                    messageBuilder.Append($"Дата обращения должна быть не ранее {SqlDateTime.MinValue.Value.ToShortDateString()}.\n");
                 }
                 #endregion
                 #region Checking entered purpose of request
